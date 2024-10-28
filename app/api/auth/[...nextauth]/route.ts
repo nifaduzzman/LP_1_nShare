@@ -1,4 +1,6 @@
 
+import connectDb from "@/libs/config/mongodb";
+import User from "@/libs/models/user";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import  CredentialsProvider  from "next-auth/providers/credentials";
 
@@ -9,8 +11,10 @@ const nextOptions:NextAuthOptions={
       credentials:{},
       async authorize(credential):Promise<any>{
         const {email,password}:any = credential
-        if(email === "nifaduzzaman2005@gmail.com" && password==="nifad2005"){
-          return {credential}
+        await connectDb()
+        const user = await User.findOne({email}) 
+        if(email === user.email && password===user.password){
+          return user
         }else{
           return null
         }

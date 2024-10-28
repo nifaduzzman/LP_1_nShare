@@ -1,11 +1,13 @@
 "use client"
 import { signIn } from 'next-auth/react'
+import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import React, { useState } from 'react'
  
 function page() { 
   const [email , setEmail] = useState<string>("")
   const [password, setPassowrd] = useState<string>("")
-  const [message, setMessage] = useState<{green:boolean, text:string}>({green:false, text:"adf"})
+  const [message, setMessage] = useState<{green:boolean, text:string}>({green:false, text:""})
   const handleSubmit = async(e:any)=>{
     e.preventDefault();
     if(!email && !password){
@@ -17,11 +19,11 @@ function page() {
       redirect:false
     })
     if(res?.error){
-      setMessage({green:false, text:"Not okey"})
+      setMessage({green:false, text:"Wrong email or password"})
       console.log(res)
       return;
     }  
-    setMessage({green:true, text:"Done"})
+    redirect('/')
     
   }
 
@@ -49,6 +51,10 @@ function page() {
          </div> 
         }
         <button className='py-2 bg-sky-400 hover:bg-sky-500 rounded-sm ' type='submit'>Login</button>
+        <div className='w-full flex justify-end'>
+          don't have account? <Link href={'/register'} className='hover:underline'> register</Link>
+
+        </div>
       </form>
       
     </main>

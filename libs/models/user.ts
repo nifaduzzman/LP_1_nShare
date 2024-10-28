@@ -3,15 +3,15 @@ import { model, models, Schema } from "mongoose";
 
 
 const userSchema = new Schema({
-  email:{
-    type:String,
-    required:true,
-  },
   userName:{
     type:String,
     required:true,
   },
-  passwor:{
+  email:{
+    type:String,
+    required:true,
+  },
+  password:{
     type:String,
     required:true,
   }
@@ -20,6 +20,6 @@ const userSchema = new Schema({
 }
 )
 
-const User = models.User || model("User",userSchema)
+const User = models?.User || model("User",userSchema)
 
 export default User;
