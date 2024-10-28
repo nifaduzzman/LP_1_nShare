@@ -8,8 +8,12 @@ const nextOptions:NextAuthOptions={
       name:"credential",
       credentials:{},
       async authorize(credential):Promise<any>{
-        const user = {id:1, name:"Md Nifad"}
-        return user
+        const {email,password}:any = credential
+        if(email === "nifaduzzaman2005@gmail.com" && password==="nifad2005"){
+          return {credential}
+        }else{
+          return null
+        }
       },
      
     })
