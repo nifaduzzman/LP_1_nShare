@@ -28,7 +28,7 @@ function Navbar() {
       setUserDetails(data.user)
    
     }
-    session&&fetchData()
+    fetchData()
   }, [session])
   const pathName = usePathname()
 
@@ -47,7 +47,6 @@ function Navbar() {
       path:"/bookmars"
     }
   ]
-  console.log("userDetails :" ,userDetails)
   const noNav = ["/login","/register"]
   return (
     <nav className={`w-full px-8 min-h-10 bg-slate-300 flex justify-between items-center py-4 pl-[30%] ${noNav.includes(pathName)?"hidden":null}`}>
@@ -60,7 +59,7 @@ function Navbar() {
         }
       </div>
       {
-        session && userDetails?(
+        session ?(
           <Link href={`/u/${userDetails?._id}`} className=' rounded-full cursor-pointer '>
             {/* <CiFaceSmile className='w-full h-full hover:text-orange-400' onClick={()=>signOut()}/> */}
             <p className='h-12 w-12 bg-slate-700 rounded-full flex items-center justify-center text-4xl text-orange-400'>{session.user?.email?.charAt(0).toUpperCase()}</p>
@@ -69,8 +68,6 @@ function Navbar() {
         ):(
           <Link href={"/login"} className='px-4 py-2 bg-orange-300 hover:bg-orange-400 '>
             Login
-            
-
           </Link>
         )
 

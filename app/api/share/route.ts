@@ -17,6 +17,7 @@ export const POST = async(request:Request)=>{
 }
 export const GET = async()=>{
   try {
+    await connectDb()
     const res = await Share.find()
     return NextResponse.json({res})
     

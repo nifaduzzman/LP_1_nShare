@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Post from './Post'
 
+
 function PostList() {
-  const [shares,setShares] = useState<Object[]>([])
+  const [shares,setShares] = useState<any>([])
   const [loading, setLoading] = useState<boolean>(true)
   useEffect(()=>{
     const fetchData = async()=>{
@@ -24,8 +25,8 @@ function PostList() {
         loading?(
           <div className='text-4xl h-screen gird place-content-center w-full'>Loading...</div>
         ):(
-        shares?.map((share)=>(
-          <Post share={share} key={share}/> 
+        shares?.map((share:any)=>(
+          <Post share={share} key={share?._id}/> 
         )))
       }
       
