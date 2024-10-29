@@ -1,6 +1,6 @@
 
 "use client"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 import { TiHome } from "react-icons/ti";
@@ -10,11 +10,28 @@ import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { CiFaceSmile } from "react-icons/ci";
 import { usePathname } from 'next/navigation';
+
+type Ob ={
+  _id:String,
+  userName:String,
+  userId:String, 
+  email:String
+}
 function Navbar() {
   const {data:session} = useSession()
-  console.log(session)
+
+  const [userDetails , setUserDetails] = useState<Ob>()
+  useEffect(() => {
+    const fetchData = async()=>{
+      const res = await fetch(`api/user?email=${session?.user?.email}`)
+      const data = await res.json()
+      setUserDetails(data.user)
+   
+    }
+    session&&fetchData()
+  }, [session])
   const pathName = usePathname()
-  console.log(pathName)
+
   const navLinks = [
     {
       name:"Home",
@@ -30,6 +47,7 @@ function Navbar() {
       path:"/bookmars"
     }
   ]
+  console.log("userDetails :" ,userDetails)
   const noNav = ["/login","/register"]
   return (
     <nav className={`w-full px-8 min-h-10 bg-slate-300 flex justify-between items-center py-4 pl-[30%] ${noNav.includes(pathName)?"hidden":null}`}>
@@ -42,12 +60,10 @@ function Navbar() {
         }
       </div>
       {
-        session?(
-          <Link href='/' className=' rounded-full cursor-pointer '>
+        session && userDetails?(
+          <Link href={`/u/${userDetails?._id}`} className=' rounded-full cursor-pointer '>
             {/* <CiFaceSmile className='w-full h-full hover:text-orange-400' onClick={()=>signOut()}/> */}
-            <p  className='px-4 py-2 bg-orange-300 hover:bg-orange-400 ' onClick={()=>signOut()}>
-              Log out
-            </p>
+            <p className='h-12 w-12 bg-slate-700 rounded-full flex items-center justify-center text-4xl text-orange-400'>{session.user?.email?.charAt(0).toUpperCase()}</p>
           </Link>
 
         ):(

@@ -12,8 +12,11 @@ const nextOptions:NextAuthOptions={
       async authorize(credential):Promise<any>{
         const {email,password}:any = credential
         await connectDb()
-        const user = await User.findOne({email}) 
-        if(email === user.email && password===user.password){
+        const newUser = await User.findOne({email}) 
+
+
+        const user = {email:newUser?.email, userName:newUser.userName, id:newUser._id}
+        if(email === newUser.email && password===newUser.password){
           return user
         }else{
           return null

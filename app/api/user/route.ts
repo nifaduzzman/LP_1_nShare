@@ -8,3 +8,18 @@ export const POST = async (request:Request)=>{
   await User.create({userName,email,password})
   return NextResponse.json({resText:"User added."})
 }
+
+
+export const GET = async(request:Request)=>{
+  try {
+    const url = new URL(request.url)
+    const email = url.searchParams.get('email')
+    const user = await User.findOne({email})
+    return NextResponse.json({user},{status:201})
+    
+  } catch (error) {
+    console.log("Error", error)
+    return NextResponse.json({error})
+  }
+
+}
